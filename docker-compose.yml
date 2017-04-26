@@ -1,0 +1,14 @@
+version: '3'
+services:
+  db:
+    image: postgres
+  web:
+    build: .
+    depends_on:
+      - db
+    env_file: ./app/.env
+    image: 87265d248f3b
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./app:/opt/app
