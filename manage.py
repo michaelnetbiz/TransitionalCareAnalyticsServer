@@ -25,7 +25,7 @@ def test():
 
 
 @manager.command
-def reboot_app():
+def reboot():
     """Reset and reboot application."""
     reset()
     initialize()
