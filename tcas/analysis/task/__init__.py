@@ -5,6 +5,9 @@
 
 import numpy as np
 import nltk
+import sys
+import logging
+from optparse import OptionParser
 from sklearn.datasets import fetch_20newsgroups
 from sklearn.decomposition import TruncatedSVD
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -14,15 +17,9 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import Normalizer
 from sklearn import metrics
 from sklearn.cluster import KMeans, MiniBatchKMeans
-import logging
-from optparse import OptionParser
-import sys
-import numpy as np
-
 from tcas.analysis.helper.unmet_needs_provider import unmet_needs_provider
 from tcas.config import ENGLISH_PICKLE, GOAL_TOKENS
 from sklearn.feature_extraction.text import CountVectorizer
-
 from tcas.analysis.helper.goal_extractor import tokenized_goals
 from tcas.task_manager import task_manager
 

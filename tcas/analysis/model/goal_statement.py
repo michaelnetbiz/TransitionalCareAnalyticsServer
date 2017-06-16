@@ -2,8 +2,7 @@
 
 
 class GoalStatement(object):
-    """
-    Representation of a single goal utterance
+    """Representation of a single goal utterance
 
     Attributes
     ----------
