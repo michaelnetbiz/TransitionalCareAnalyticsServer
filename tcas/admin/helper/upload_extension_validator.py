@@ -1,18 +1,20 @@
 def upload_extension_validator(filename):
-    """This function returns a uri.
+    """Validates upload file extension.
 
-        Args:
-           filename (str):  The filename for which to test the extension.
+    Parameters
+    ----------
+    filename : str
+        Filename to test.
 
-        Returns:
-           bool.  The return code::
+    Returns
+    -------
+    bool
+        Return value indicates whether the input possesses one of the specified extensions.
 
-              True -- The filename possesses one of the specified file extensions.
-              False -- The filename does not possess one of the specified file extensions.
+    Usage example:
 
-        Usage example:
+    >>> print(upload_extension_validator('lol.lol'))
+    False
 
-        >>> print(upload_extension_validator('lol.lol'))
-        False
     """
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'zip', 'csv'}

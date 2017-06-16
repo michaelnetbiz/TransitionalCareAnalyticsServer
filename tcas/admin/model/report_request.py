@@ -92,6 +92,6 @@ class ReportRequest(object):
         if '-' in report_type:
             report_type = report_type.replace('-', '_')
         if report_type not in ReportRequest.ALLOWED_REPORTS.keys():
-            return None
+            return
         else:
             return report_type

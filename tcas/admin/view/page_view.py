@@ -5,6 +5,8 @@ from tcas.admin.model import Page
 
 
 class PageView(BlueprintRouterMixin, MethodView):
+    """Provides interfaces for retrieving and acting upon Page entities via HTTP requests.
+    """
     def get(self, _id):
         """
 

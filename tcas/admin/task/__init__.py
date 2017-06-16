@@ -1,14 +1,21 @@
 # -*- coding: utf-8 -*-
+"""
+.. module:: tcas.admin.task
+   :platform: idk
+   :synopsis: Module for administering computationally intensive and periodic tasks.
 
+.. moduleauthor:: Michael E. Nelson <michael.nelson@fulbrightmail.org>
+
+"""
 from datetime import date
-
-from tcas.admin.model import Report, ReportRequest
+from tcas.admin.model.report import Report
+from tcas.admin.model.report_request import ReportRequest
 from tcas.admin.service import report_service as service
 from tcas.task_manager import task_manager
 
 
 @task_manager.task()
-def variable_abstraction(variable_abstractee):
+def abstract_variable(variable_abstractee):
     """
 
     Parameters
@@ -96,7 +103,7 @@ def get_n_line(n, txt):
 
 
 @task_manager.task()
-def reporting():
+def run_google_analytics_report():
     """Run reporting task.
 
     Returns

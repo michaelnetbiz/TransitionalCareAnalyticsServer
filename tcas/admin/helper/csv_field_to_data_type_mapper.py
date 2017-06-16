@@ -3,7 +3,7 @@ from tcas.helper import csv_unzipper
 
 
 def csv_field_to_data_type_mapper(src, doc) -> map:
-    """
+    """Determines data types given a .csv file.
 
     Parameters
     ----------

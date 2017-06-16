@@ -6,6 +6,8 @@ from tcas.admin.model import Pageview
 
 # TODO: link pageviews to goals (met/unment) if pageview is of a relevant page
 class PageviewView(BlueprintRouterMixin, MethodView):
+    """Provides interfaces for retrieving and acting upon Google Analytics Pageview entities via HTTP requests.
+    """
     def get(self, _id):
         """
 

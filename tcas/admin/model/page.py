@@ -1,6 +1,6 @@
+# -*- coding: utf-8 -*-
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
-
 from tcas.db import Base, CommonMixin
 
 

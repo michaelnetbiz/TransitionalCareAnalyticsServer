@@ -18,14 +18,14 @@ class Upload(CommonMixin, Base):
         if data.file() is not None:
             return data
         else:
-            return None
+            return
 
     @staticmethod
     def validate_delete_data(data):
         if data.get('password') is not None:
             return data
         else:
-            return None
+            return
 
     def serialize(self):
         return {

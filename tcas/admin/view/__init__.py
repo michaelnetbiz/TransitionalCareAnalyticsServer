@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-.. module:: task
+.. module:: tcas.admin.view
    :platform: idk
    :synopsis: Module for administering computationally intensive and periodic tasks.
 
@@ -8,7 +8,3 @@
 
 
 """
-from .page_view import PageView
-from .pageview_view import PageviewView
-from .report_view import ReportView
-from .upload_view import UploadView
