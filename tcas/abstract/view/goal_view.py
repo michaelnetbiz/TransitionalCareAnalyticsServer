@@ -9,10 +9,15 @@ from tcas.helper.url_getter import url_getter
 
 class GoalView(BlueprintRouterMixin, MethodView):
     def get(self, _id):
-        """
+        """Reads specified Goal resource or else returns all Goal resources.
 
-        :param _id: 
-        :return: 
+        Parameters
+        ----------
+        _id
+
+        Returns
+        -------
+
         """
         if _id is None:
             return jsonify([user.serialize() for user in Goal.query.all()])

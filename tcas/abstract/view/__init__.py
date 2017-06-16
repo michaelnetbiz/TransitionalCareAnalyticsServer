@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-.. module:: task
+.. module:: tcas.abstract.view
    :platform: idk
    :synopsis: Module for administering computationally intensive and periodic tasks.
 
 .. moduleauthor:: Michael E. Nelson <michael.nelson@fulbrightmail.org>
-
 
 """

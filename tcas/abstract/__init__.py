@@ -1,25 +1,19 @@
 # -*- coding: utf-8 -*-
-"""The application's abstraction blueprint.
-
-Provides models, helper functions, and views for abstracting domain entities from data.
+"""The application's abstraction blueprint. Provides models, helper functions, and views for abstracting domain
+entities from data.
 
 Attributes
 ----------
 mod_abstract : flask.blueprints.Blueprint
-token_level_view_args : dict
-type_level_view_args : dict
 
 """
 # TODO: add methods for summary statistics on variables like computer self-efficacy, gender, race, etc.
 from flask import Blueprint
-
+from tcas.helper.blueprint_router_mixin import token_level_view_args, type_level_view_args
 from tcas.abstract.view.case_view import case_converter, case_key, case_view_func, case_url
 from tcas.abstract.view.goal_view import goal_converter, goal_key, goal_view_func, goal_url
 
 mod_abstract = Blueprint('abstract', __name__, url_prefix='/abstract')
-
-token_level_view_args = {'_id': None}
-type_level_view_args = {'_name': None}
 
 mod_abstract.add_url_rule(
     case_url,

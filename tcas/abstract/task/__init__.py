@@ -15,7 +15,7 @@ def abstract_goals(goal_abstractee):
 
     Returns
     -------
-    app.casework.model.goal.Goal
+    tcas.abstract.model.goal.Goal
     """
     # TODO: check performance of RegexpTokenizer v. WhitespaceTokenizer with str.startswith('\''), str.startswith('(')
     # TODO: test against contractions.csv?
@@ -38,7 +38,7 @@ def abstract_cases(case_abstractee):
 
     Returns
     -------
-    app.casework.model.case.Case
+    tcas.abstract.model.case.Case
 
     """
 

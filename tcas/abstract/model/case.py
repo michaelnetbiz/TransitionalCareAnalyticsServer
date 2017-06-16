@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import sqlalchemy
 from sqlalchemy.orm import relationship
-
 from tcas.abstract.model.condition_enum import ConditionEnum
 from tcas.db import Base, CommonMixin
 

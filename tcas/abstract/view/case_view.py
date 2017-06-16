@@ -9,8 +9,11 @@ from tcas.helper.url_getter import url_getter
 
 
 class CaseView(BlueprintRouterMixin, MethodView):
+    """Provides view of Case entities by abstracting from uploaded data.
+    """
+
     def get(self, _id):
-        """
+        """ Reads a specified Case resource, or else all Case resources.
 
         Parameters
         ----------
@@ -26,11 +29,10 @@ class CaseView(BlueprintRouterMixin, MethodView):
             return jsonify(Case.query.filter_by(id=_id).all())
 
     def post(self):
-        """Run goal abstraction task asynchronously.
-
+        """ Creates Case resources by running the case abstraction task asynchronously.
         """
         task = abstract_cases.apply_async(args=['arg'])
-        return url_for('abstract.case_view', task_id=task.id)
+        return url_for('abstract.case_view', _id=task.id)
 
 
 case_endpoint = endpoint_getter(CaseView)

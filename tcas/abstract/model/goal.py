@@ -90,6 +90,7 @@ class Goal(CommonMixin, Base):
 
     # foreign keys
     # service_plan = sqlalchemy.Column(sqlalchemy.String(16), sqlalchemy.ForeignKey('interaction.id'))
+    case = sqlalchemy.Column(sqlalchemy.String(16), sqlalchemy.ForeignKey('case.id'))
 
     # arguments to enable class polymorphic inheritance from Interaction
     goal_type = orm.column_property(sql.expression.case([
