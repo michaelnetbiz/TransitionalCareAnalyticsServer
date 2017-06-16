@@ -1,22 +1,32 @@
 # -*- coding: utf-8 -*-
+from psycopg2 import IntegrityError
+from sqlalchemy.exc import IntegrityError
 from flask import abort, jsonify, make_response, request
 from flask.views import MethodView
 from flask_login import login_required
-from sqlalchemy import update
-
 from tcas.db import database_session as session
-from tcas.auth.model import User
+from tcas.auth.model.user import User
 from tcas.helper.blueprint_router_mixin import BlueprintRouterMixin
+from tcas.helper.endpoint_getter import endpoint_getter
 from tcas.helper.id_validator import id_validator
+from tcas.helper.url_getter import url_getter
 
 
 class UserView(BlueprintRouterMixin, MethodView):
-    # @login_required
-    def get(self, _id):
-        """
+    """Provides interfaces for retrieving and acting upon User entities via HTTP requests.
+    """
 
-        :param _id: 
-        :return: 
+    @login_required
+    def get(self, _id):
+        """Returns metadata for either a single specified user, or all users.
+
+        Parameters
+        ----------
+        _id
+
+        Returns
+        -------
+
         """
         if not _id:
             return jsonify([user.serialize() for user in User.query.all()])
@@ -26,9 +36,11 @@ class UserView(BlueprintRouterMixin, MethodView):
         return jsonify(user.serialize())
 
     def post(self):
-        """
+        """Creates a User.
 
-        :return: 
+        Returns
+        -------
+
         """
         data = request.get_json()
         if not User.validate_post_data(data):
@@ -41,9 +53,11 @@ class UserView(BlueprintRouterMixin, MethodView):
             password=pw
         )
         s.add(u)
-        s.commit()
-        token = u.generate_token()
-        return make_response(jsonify({'token': token}), 201)
+        try:
+            s.commit()
+        except IntegrityError:
+            return abort(500)
+        return make_response(jsonify({'email': email}), 201)
 
     # @login_required
     # def put(self, _id):
@@ -67,8 +81,13 @@ class UserView(BlueprintRouterMixin, MethodView):
     def delete(self, _id):
         """
 
-        :param _id: 
-        :return: 
+        Parameters
+        ----------
+        _id
+
+        Returns
+        -------
+
         """
         data = request.get_json()
         if not User.validate_delete_data(data):
@@ -83,3 +102,11 @@ class UserView(BlueprintRouterMixin, MethodView):
         s.delete(user)
         s.commit()
         return make_response(jsonify('Resource deleted successfully.'), 202)
+
+
+user_endpoint = endpoint_getter(UserView)
+user_converter = UserView.converter
+user_key = UserView.key
+user_url = url_getter(UserView)
+
+user_view_func = UserView.as_view(user_endpoint)

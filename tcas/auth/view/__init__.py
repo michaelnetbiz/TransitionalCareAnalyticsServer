@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-.. module:: task
+.. module:: auth
    :platform: idk
    :synopsis: Module for administering computationally intensive and periodic tasks.
 
@@ -8,5 +8,3 @@
 
 
 """
-from .auth_view import AuthView
-from .user_view import UserView

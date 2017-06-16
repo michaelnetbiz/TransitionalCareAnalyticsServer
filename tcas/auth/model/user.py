@@ -1,23 +1,19 @@
-from itsdangerous import Serializer, SignatureExpired, BadSignature
+# -*- coding: utf-8 -*-
+from itsdangerous import TimedJSONWebSignatureSerializer, SignatureExpired, BadSignature
 from werkzeug.security import generate_password_hash, check_password_hash
-
 from flask_login import UserMixin
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declared_attr
-
 from tcas.config import SECRET_KEY
 from tcas.db import Base, CommonMixin
 
 
 class User(UserMixin, CommonMixin, Base):
+    """Represents Users of the application
+    """
     public_attributes = ['email']
-    # declare relationships
     uploads = relationship('Upload')
-
-    # declare foreign keys
-
-    # declare attributes
     email = Column(String, nullable=False, unique=True)
     password_hash = Column(String, nullable=False)
 
@@ -26,15 +22,35 @@ class User(UserMixin, CommonMixin, Base):
         return ['email']
 
     def is_authenticated(self):
+        """Instance method returns whether or not the User instance is authenticated.
+        Returns
+        -------
+        bool
+        """
         return True
 
     def is_active(self):
+        """Instance method returns whether or not the User instance is active.
+        Returns
+        -------
+        bool
+        """
         return True
 
     def is_anonymous(self):
+        """Instance method returns whether or not the User instance is anonymous.
+        Returns
+        -------
+        bool
+        """
         return False
 
     def get_id(self):
+        """Instance method returns User identifier.
+        Returns
+        -------
+        str
+        """
         return self.id
 
     def __init__(self, email, password):
@@ -50,29 +66,55 @@ class User(UserMixin, CommonMixin, Base):
     def password(self, password):
         self.password_hash = generate_password_hash(password)
 
-    def authenticate(self, password):
-        return check_password_hash(self.password_hash, password)
+    @staticmethod
+    def verify_credentials(email, password):
+        """Verifies combination of User email and User password.
+        Parameters
+        ----------
+        email : str
+        password : str
+
+        Returns
+        -------
+        bool
+        """
+        user = User.query.filter_by(email=email).first()
+        if not user:
+            return False
+        return check_password_hash(user.password_hash, password)
 
     @staticmethod
     def validate_post_data(data):
-        if 'email' in data.keys() and 'password' in data.keys():
+        """Validates the contents of POST requests.
+
+        Parameters
+        ----------
+        data
+
+        Returns
+        -------
+
+        """
+        if not data:
+            return
+        elif 'email' in data.keys() and 'password' in data.keys():
             return data
         else:
-            return None
+            return
 
     @staticmethod
     def validate_put_data(data):
         if 'password' in data.keys():
             return data
         else:
-            return None
+            return
 
     @staticmethod
     def validate_delete_data(data):
         if 'password' in data.keys():
             return data
         else:
-            return None
+            return
 
     def serialize(self):
         return {
@@ -81,5 +123,34 @@ class User(UserMixin, CommonMixin, Base):
         }
 
     def generate_token(self):
-        s = Serializer(SECRET_KEY)
-        return s.dumps({'id': self.id})
+        """Generates authentication token.
+
+        Returns
+        -------
+        str
+
+        """
+        serializer = TimedJSONWebSignatureSerializer(SECRET_KEY, expires_in=300)
+        return serializer.dumps({'id': self.id})
+
+    @staticmethod
+    def verify_token(token):
+        """Verifies provided authentication token.
+
+        Parameters
+        ----------
+        token
+
+        Returns
+        -------
+        tcas.auth.model.user.User
+
+        """
+        serializer = TimedJSONWebSignatureSerializer(SECRET_KEY)
+        try:
+            _id = serializer.loads(token)
+        except SignatureExpired:
+            return
+        except BadSignature:
+            return
+        return User.query.filter_by(id=_id).first()

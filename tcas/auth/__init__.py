@@ -1,35 +1,20 @@
 # -*- coding: utf-8 -*-
-"""The application's authentication blueprint.
-
-Provides models and helper functions for managing authentication. Implements views for client to authenticate.
+"""The application's authentication blueprint. Provides models and helper functions for managing authentication.
+Implements views for client to authenticate.
 
 Attributes
 ----------
 mod_auth : flask.blueprints.Blueprint
-token_level_view_args : dict
-type_level_view_args : dict
 
 """
-
 from flask import Blueprint
-
-from tcas.helper.url_getter import url_getter
-from tcas.helper.endpoint_getter import endpoint_getter
-from .view import *
-
-token_level_view_args = {'_id': None}
-type_level_view_args = {'_name': None}
+from tcas.helper.blueprint_router_mixin import token_level_view_args
+from tcas.auth.view.auth_view import AuthView
+from tcas.auth.view.auth_view import auth_endpoint, auth_url, auth_view_func
+from tcas.auth.view.user_view import UserView
+from tcas.auth.view.user_view import user_converter, user_endpoint, user_key, user_url, user_view_func
 
 mod_auth = Blueprint('auth', __name__, url_prefix='/auth')
-
-auth_endpoint = endpoint_getter(AuthView)
-user_endpoint = endpoint_getter(UserView)
-auth_url = '/'
-user_url = url_getter(UserView)
-user_converter = UserView.converter
-user_key = UserView.key
-auth_view_func = AuthView.as_view(auth_endpoint)
-user_view_func = UserView.as_view(user_endpoint)
 
 mod_auth.add_url_rule(
     user_url,
@@ -50,5 +35,5 @@ mod_auth.add_url_rule(
 mod_auth.add_url_rule(
     auth_url,
     view_func=auth_view_func,
-    methods=['POST']
+    methods=['GET', 'POST']
 )

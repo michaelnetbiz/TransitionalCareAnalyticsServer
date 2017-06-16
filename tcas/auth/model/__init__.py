@@ -8,4 +8,3 @@
 
 
 """
-from .user import User
