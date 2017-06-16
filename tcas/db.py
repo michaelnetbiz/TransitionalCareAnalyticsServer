@@ -14,39 +14,54 @@ Base.query = database_session.query_property()
 
 
 def initialize_model(eng=engine):
-    """
+    """Initializes data model.
 
     Parameters
     ----------
     eng
+
     """
     Base.metadata.create_all(bind=eng)
 
 
 def reset_model(eng=engine):
-    """
+    """Resets data model.
 
     Parameters
     ----------
     eng
+
     """
     Base.metadata.drop_all(bind=eng)
 
 
 def model_uri_generator():
-    """
+    """Generates uri.
+
     Returns
     -------
+    str
 
-    Examples
-    -------
-    >>> print(model_uri_generator())
+    Example usage:
+
+    >>> print(model_uri_generator()) #random
     fe8329ab02fd6451
+
     """
     return ''.join(choice('0123456789abcdef') for i in range(16))
 
 
 class CommonMixin(object):
+    """Provides common data model attributes.
+
+    Attributes
+    ----------
+    id : sqlalchemy.String
+    date_created : sqlalchemy.DateTime
+    date_updated : sqlalchemy.DateTime
+    public_attributes : list
+
+    """
     public_attributes = []
 
     @declared_attr

@@ -6,9 +6,18 @@ type_level_view_args = {'_name': None}
 
 
 class BlueprintRouterMixin(object):
+    """Provides methods for generating endpoints and URLs based on the class that uses the mixin.
+
+    Attributes
+    ----------
+    converter : str
+    key : str
+
+    """
+
     @staticmethod
     def get_endpoint(cls):
-        """
+        """Provides endpoint for a given class.
 
         Parameters
         ----------
@@ -16,13 +25,14 @@ class BlueprintRouterMixin(object):
 
         Returns
         -------
+        str
 
         """
         return underscore(cls.__name__)
 
     @staticmethod
     def get_url(cls):
-        """
+        """Provides url for a given class.
 
         Parameters
         ----------
@@ -30,10 +40,10 @@ class BlueprintRouterMixin(object):
 
         Returns
         -------
+        str
 
         """
         return '/' + underscore(cls.__name__[:-4]).replace('_', '-') + '/'
 
-    key = '_id'
-
     converter = 'string'
+    key = '_id'

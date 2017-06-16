@@ -1,5 +1,4 @@
 from flask_script import Manager
-
 from tcas import create_tcas
 from tcas.db import initialize_model
 from tcas.db import reset_model
